@@ -1,6 +1,6 @@
-﻿using CoreLayer;
+﻿using CoreLayer.BaseEntity;
 
-namespace EntityLayer.Blog
+namespace EntityLayer.Blog.Entities
 {
     public class Article : BaseEntity
     {

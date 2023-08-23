@@ -1,12 +1,14 @@
-﻿namespace CoreLayer
+﻿namespace EntityLayer.Blog.DTOs.CategoryDTOs
 {
-    public abstract class BaseEntity
+    public class CategoryUpdateDTO
     {
+        //category section
+        public string Name { get; set; } = null!;
+
         //Primary Key
         public int Id { get; set; }
 
         //Information
-        public string CreatedDate { get; set; } = null!;
         public string? UpdatedDate { get; set; }
 
         //Check Constraint       

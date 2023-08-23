@@ -1,8 +1,6 @@
-﻿using CoreLayer;
-
-namespace EntityLayer.Blog
+﻿namespace EntityLayer.Blog.DTOs.CategoryDTOs
 {
-    public class Category : BaseEntity
+    public class CategoryAddDTO
     {
         //category section
         public string Name { get; set; } = null!;
