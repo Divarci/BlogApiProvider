@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Text.Json.Serialization;
 
 namespace EntityLayer.Blog.DTOs.ArticleDTOs
 {
@@ -14,6 +15,10 @@ namespace EntityLayer.Blog.DTOs.ArticleDTOs
         public string FileType { get; set; } = null!;
 
         //Photo Add
+        [JsonIgnore]
         public IFormFile Photo { get; set; } = null!;
+
+        //category relation
+        public int CategoryId { get; set; }
     }
 }

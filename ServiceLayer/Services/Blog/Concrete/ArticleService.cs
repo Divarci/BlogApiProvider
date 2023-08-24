@@ -50,13 +50,15 @@ namespace ServiceLayer.Services.Blog.Concrete
 
             var article = _mapper.Map<Article>(request);
             await _repository.AddAsync(article);
+            await _unitOfWork.CommitAsync();
             return CustomResponseDto<ArticleAddDTO>.Success(201, request);
 
         }
 
         public async Task<CustomResponseDto<NoContentDto>> ArticleUpdateAsync(ArticleUpdateDTO request)
         {
-            var existingArticle = await _repository.Where(x => x.Id == request.Id).AsNoTracking().SingleAsync();
+            var existingArticle = await _repository.GetByIdAsync(request.Id);
+            string oldPictue = existingArticle.FileName;
 
             if (request.Photo != null)
             {
@@ -69,13 +71,13 @@ namespace ServiceLayer.Services.Blog.Concrete
                 request.FileType = request.Photo.ContentType;
             }
 
-            var article = _mapper.Map<Article>(request);
+            var article = _mapper.Map(request,existingArticle);
             _repository.Update(article);
             await _unitOfWork.CommitAsync();
 
             if(request.Photo != null)
             {
-                _imageHelper.Delete(existingArticle.FileName);
+                _imageHelper.Delete(oldPictue);
             }
 
             return CustomResponseDto<NoContentDto>.Success(204);

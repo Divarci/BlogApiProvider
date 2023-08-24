@@ -16,5 +16,8 @@
 
         //Picture Section
         public string FileName { get; set; } = null!;
+
+        //category relation
+        public int CategoryId { get; set; }
     }
 }

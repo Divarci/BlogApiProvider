@@ -23,5 +23,8 @@ namespace EntityLayer.Blog.DTOs.ArticleDTOs
 
         //Photo Add
         public IFormFile? Photo { get; set; }
+
+        //category relation
+        public int CategoryId { get; set; }
     }
 }

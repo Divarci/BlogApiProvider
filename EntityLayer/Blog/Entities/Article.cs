@@ -12,5 +12,9 @@ namespace EntityLayer.Blog.Entities
         //Picture Section
         public string FileName { get; set; } = null!;
         public string FileType { get; set; } = null!;
+
+        //category relation
+        public int CategoryId { get; set; }
+        public Category Category { get; set; } = null!;
     }
 }

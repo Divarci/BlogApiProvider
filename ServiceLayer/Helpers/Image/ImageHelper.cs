@@ -20,12 +20,12 @@ namespace ServiceLayer.Helpers.Image
             if (!Directory.Exists($"{_environment.ContentRootPath}/{ArticleFolder}"))
                 Directory.CreateDirectory($"{_environment.ContentRootPath}/{ArticleFolder}");
 
-            string fileExtension = Path.GetExtension(imageFile.Name);
+            string fileExtension = Path.GetExtension(imageFile.FileName);
 
             if (fileExtension != ".jpg" && fileExtension != ".jpeg" && fileExtension != ".png")
                 return new ArticleImageDto { Error = "You have to upload a JPG,JPEG or PNG" };
 
-            string dateTime = DateTime.Now.ToString();
+            string dateTime = DateTime.Now.Microsecond.ToString();
             string newFileName = $"Article_{dateTime}{fileExtension}";
 
             string path = Path.Combine($"{_environment.ContentRootPath}/{ArticleFolder}", newFileName);

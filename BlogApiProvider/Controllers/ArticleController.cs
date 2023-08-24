@@ -29,14 +29,14 @@ namespace BlogApiProvider.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> ArticleUpdate(ArticleUpdateDTO request)
+        public async Task<IActionResult> ArticleUpdate([FromForm]ArticleUpdateDTO request)
         {
             var updatedArticle = await _articleService.ArticleUpdateAsync(request);
             return CreateActionResult(updatedArticle);
         }
 
         [HttpPost]
-        public async Task<IActionResult> ArticleAdd(ArticleAddDTO request)
+        public async Task<IActionResult> ArticleAdd([FromForm]ArticleAddDTO request)
         {
             var newArticle = await _articleService.ArticleAddAsync(request);
             return CreateActionResult(newArticle);

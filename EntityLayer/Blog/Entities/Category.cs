@@ -6,5 +6,8 @@ namespace EntityLayer.Blog.Entities
     {
         //category section
         public string Name { get; set; } = null!;
+
+        //article relation
+        public ICollection<Article> Articles { get; set; }
     }
 }

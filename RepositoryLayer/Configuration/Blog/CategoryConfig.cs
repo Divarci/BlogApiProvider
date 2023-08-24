@@ -17,6 +17,9 @@ namespace RepositoryLayer.Configuration.Blog
             //Information Settings
             builder.Property(x => x.CreatedDate).HasMaxLength(10).IsRequired();
             builder.Property(x => x.UpdatedDate).HasMaxLength(10);
+
+            //Relation
+            builder.HasMany(x => x.Articles).WithOne(x => x.Category).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
