@@ -1,13 +1,12 @@
 ﻿using EntityLayer.Blog.DTOs.CategoryDTOs;
 using EntityLayer.Blog.Entities;
 using Microsoft.AspNetCore.Mvc;
+using ServiceLayer.Exceptions.Exceptions;
 using ServiceLayer.Exceptions.Filters;
 using ServiceLayer.Services.Blog.Abstract;
 
 namespace BlogApiProvider.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class CategoryController : CustomBaseController
     {
         private readonly ICategoryService _categoryService;

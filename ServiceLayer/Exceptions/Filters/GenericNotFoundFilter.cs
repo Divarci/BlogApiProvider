@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using RepositoryLayer.Repository.Abstract;
+using ServiceLayer.Exceptions.Exceptions;
 
 namespace ServiceLayer.Exceptions.Filters
 {

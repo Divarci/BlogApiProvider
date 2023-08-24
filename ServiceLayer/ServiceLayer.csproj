@@ -12,9 +12,7 @@
 
   <ItemGroup>
     <Folder Include="Automapper\Identity\" />
-    <Folder Include="Automapper\Blog\" />
     <Folder Include="FluentValidaton\Identity\" />
-    <Folder Include="Helpers\" />
     <Folder Include="Services\Identity\" />
   </ItemGroup>
 

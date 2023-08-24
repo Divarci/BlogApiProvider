@@ -1,5 +1,6 @@
 using RepositoryLayer.Extension;
 using ServiceLayer.Exceptions.Filters;
+using ServiceLayer.Exceptions.Middleware;
 using ServiceLayer.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +30,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCustomException();
 
 app.UseAuthorization();
 

@@ -14,7 +14,8 @@ namespace ServiceLayer.Services.Blog.Concrete
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IGenericRepository<Category> _repository;
-        private readonly IMapper _mapper;       
+        private readonly IMapper _mapper;    
+        
 
         public CategoryService(IUnitOfWork unitOfWork, IMapper mapper)
         {

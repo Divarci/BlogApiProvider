@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceLayer.Exceptions.Filters;
 using ServiceLayer.FluentValidaton.Blog.Category;
+using ServiceLayer.Helpers.Image;
 using System.Reflection;
 
 namespace ServiceLayer.Extensions
@@ -33,6 +34,8 @@ namespace ServiceLayer.Extensions
                     services.AddScoped(serviceType, type);
                 }
             }
+
+            services.AddScoped<IImageHelper,ImageHelper>();
 
             //Add MemoryCache
             services.AddMemoryCache();
