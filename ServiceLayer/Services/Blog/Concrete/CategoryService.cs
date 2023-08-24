@@ -4,7 +4,6 @@ using EntityLayer.Blog.DTOs.CategoryDTOs;
 using EntityLayer.Blog.Entities;
 using EntityLayer.GenericDTOs;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using RepositoryLayer.Repository.Abstract;
 using RepositoryLayer.UnitOfWOrk.Abstract;
 using ServiceLayer.Services.Blog.Abstract;
@@ -15,40 +14,26 @@ namespace ServiceLayer.Services.Blog.Concrete
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IGenericRepository<Category> _repository;
-        private readonly IMapper _mapper;
-        private readonly IMemoryCache _cache;
-        private const string CategoryCache = "category";
+        private readonly IMapper _mapper;       
 
-        public CategoryService(IUnitOfWork unitOfWork, IMapper mapper, IMemoryCache cache)
+        public CategoryService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _repository = _unitOfWork.GetGenericRepository<Category>();
-            _mapper = mapper;
-            _cache = cache;
+            _mapper = mapper;           
 
-            if (!_cache.TryGetValue(CategoryCache, out _))
-            {
-                _cache.Set(CategoryCache, _unitOfWork.GetGenericRepository<Category>().GetList().ToListAsync().Result);
-            }
+        }       
+
+        public async Task<CustomResponseDto<List<CategoryListDTO>>> GetAllCategoriesAsync()
+        {
+            var categories = await _repository.GetList().ProjectTo<CategoryListDTO>(_mapper.ConfigurationProvider).ToListAsync();
+            return CustomResponseDto<List<CategoryListDTO>>.Success(200, categories);
         }
 
-        public async Task CacheCategoryAsync()
+        public async Task<CustomResponseDto<CategoryUpdateDTO>> GetCategoryByIdAsync(int id)
         {
-            _cache.Set(CategoryCache, await _unitOfWork.GetGenericRepository<Category>().GetList().ToListAsync());
-        }
-
-        public Task<CustomResponseDto<List<CategoryListDTO>>> GetAllCategoriesAsync()
-        {
-            var categories = _cache.Get<List<Category>>(CategoryCache);
-            var categoryDtoList = _mapper.Map<List<CategoryListDTO>>(categories);
-            return Task.FromResult(CustomResponseDto<List<CategoryListDTO>>.Success(200, categoryDtoList));
-        }
-
-        public Task<CustomResponseDto<CategoryUpdateDTO>> GetCategoryByIdAsync(int id)
-        {
-            var category = _cache.Get<List<Category>>(CategoryCache)!.FirstOrDefault(x => x.Id == id);
-            var categoryUpdateDto = _mapper.Map<CategoryUpdateDTO>(category);
-            return Task.FromResult(CustomResponseDto<CategoryUpdateDTO>.Success(200, categoryUpdateDto));
+            var category =await _repository.Where(x=>x.Id == id).ProjectTo<CategoryUpdateDTO>(_mapper.ConfigurationProvider).SingleAsync();
+            return CustomResponseDto<CategoryUpdateDTO>.Success(200, category);
         }
 
         public async Task<CustomResponseDto<NoContentDto>> CategoryUpdateAsync(CategoryUpdateDTO request)
@@ -57,7 +42,6 @@ namespace ServiceLayer.Services.Blog.Concrete
             var updatedCategory = _mapper.Map(request, existingCategory);
             _repository.Update(updatedCategory);
             await _unitOfWork.CommitAsync();
-            await CacheCategoryAsync();
             return CustomResponseDto<NoContentDto>.Success(204);
         }
 
@@ -66,7 +50,6 @@ namespace ServiceLayer.Services.Blog.Concrete
             var newCategory = _mapper.Map<Category>(request);
             await _repository.AddAsync(newCategory);
             await _unitOfWork.CommitAsync();
-            await CacheCategoryAsync();
             return CustomResponseDto<CategoryAddDTO>.Success(201, request);
         }
 
@@ -75,7 +58,6 @@ namespace ServiceLayer.Services.Blog.Concrete
             var existingCategory = await _repository.GetByIdAsync(id);
             _repository.Delete(existingCategory);
             await _unitOfWork.CommitAsync();
-            await CacheCategoryAsync();
             return CustomResponseDto<NoContentDto>.Success(204);
 
         }
