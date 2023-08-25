@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Text.Json.Serialization;
 
 namespace EntityLayer.Blog.DTOs.ArticleDTOs
 {
@@ -10,7 +11,7 @@ namespace EntityLayer.Blog.DTOs.ArticleDTOs
         //Information
         public string? UpdatedDate { get; set; }
 
-        //Check Constraint       
+        //Check Constraint
         public byte[] RowVersion { get; set; } = null!;
         //Article Section
         public string Title { get; set; } = null!;

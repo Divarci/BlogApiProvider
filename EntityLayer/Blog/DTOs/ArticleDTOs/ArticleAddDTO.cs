@@ -11,11 +11,11 @@ namespace EntityLayer.Blog.DTOs.ArticleDTOs
         public string Author { get; set; } = null!;
 
         //Picture Section
+      
         public string FileName { get; set; } = null!;
         public string FileType { get; set; } = null!;
 
         //Photo Add
-        [JsonIgnore]
         public IFormFile Photo { get; set; } = null!;
 
         //category relation

@@ -4,6 +4,7 @@
     {
         public static string EmptyNullMessage(string title) { return $"{title} is required."; }
         public static string MaximumLength(int value) { return $"You are allowed to use maximum {value} character."; }
+        public static string MustBeInteger() { return "Please use an integer."; }
 
         
     }

@@ -2,12 +2,12 @@
 {
     public class CategoryUpdateDTO
     {
-        //category section
-        public string Name { get; set; } = null!;
-
         //Primary Key
         public int Id { get; set; }
 
+        //category section
+        public string Name { get; set; } = null!;
+       
         //Information
         public string? UpdatedDate { get; set; }
 

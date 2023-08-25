@@ -9,6 +9,10 @@ namespace ServiceLayer.FluentValidaton.Blog.Article
         public ArticleUpdateDtoValidation()
         {
             //Article Validation (Child)
+            RuleFor(x => x.Id)
+                .NotEmpty().WithMessage(FluentValidatonMessages.EmptyNullMessage("Id"))
+                .NotNull().WithMessage(FluentValidatonMessages.EmptyNullMessage("Id"))
+                .Must(id=>BeAnInteger(id.ToString())).WithMessage(FluentValidatonMessages.MustBeInteger());
             RuleFor(x => x.Title)
                 .NotEmpty().WithMessage(FluentValidatonMessages.EmptyNullMessage("Title"))
                 .NotNull().WithMessage(FluentValidatonMessages.EmptyNullMessage("Title"))
@@ -20,7 +24,18 @@ namespace ServiceLayer.FluentValidaton.Blog.Article
             RuleFor(x => x.Content)
                 .NotEmpty().WithMessage(FluentValidatonMessages.EmptyNullMessage("Content"))
                 .NotNull().WithMessage(FluentValidatonMessages.EmptyNullMessage("Content"));
-                     
+
+            //Category Validation
+            RuleFor(x => x.CategoryId)
+                .NotEmpty().WithMessage(FluentValidatonMessages.EmptyNullMessage("Category"))
+                .NotNull().WithMessage(FluentValidatonMessages.EmptyNullMessage("Category"));
+
+
+        }
+
+        private bool BeAnInteger(string id)
+        {
+            return int.TryParse(id, out _);
         }
     }
 }

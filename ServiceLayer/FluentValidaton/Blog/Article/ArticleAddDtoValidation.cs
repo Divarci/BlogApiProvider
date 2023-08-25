@@ -25,7 +25,12 @@ namespace ServiceLayer.FluentValidaton.Blog.Article
             RuleFor(x => x.Photo)
                 .NotEmpty().WithMessage(FluentValidatonMessages.EmptyNullMessage("Picture"))
                 .NotNull().WithMessage(FluentValidatonMessages.EmptyNullMessage("Picture"));
-        
+
+            //Category Validation
+            RuleFor(x => x.CategoryId)
+                .NotEmpty().WithMessage(FluentValidatonMessages.EmptyNullMessage("Category"))
+                .NotNull().WithMessage(FluentValidatonMessages.EmptyNullMessage("Category"));
+
         }
     }
 }

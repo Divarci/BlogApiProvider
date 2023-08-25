@@ -70,6 +70,11 @@ namespace ServiceLayer.Services.Blog.Concrete
                 request.FileName = imageUpload.FileName!;
                 request.FileType = request.Photo.ContentType;
             }
+            else
+            {
+                request.FileName = existingArticle.FileName;
+                request.FileType = existingArticle.FileType;
+            }          
 
             var article = _mapper.Map(request,existingArticle);
             _repository.Update(article);

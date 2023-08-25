@@ -1,4 +1,5 @@
 ﻿using CoreLayer.BaseEntity;
+using EntityLayer.Blog.DTOs.ArticleDTOs;
 using EntityLayer.GenericDTOs;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace ServiceLayer.Exceptions.Filters
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var value = context.ActionArguments.Values.FirstOrDefault();          
-                    
+          
             //if id is an int. we cast it to an int. than we check is there any match with this id.
             var id = (int)value!;
             var entityCheck = await _genericRepository.AnyAsync(x => x.Id == id);

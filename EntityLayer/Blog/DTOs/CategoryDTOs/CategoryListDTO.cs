@@ -1,4 +1,6 @@
-﻿namespace EntityLayer.Blog.DTOs.CategoryDTOs
+﻿using EntityLayer.Blog.DTOs.ArticleDTOs;
+
+namespace EntityLayer.Blog.DTOs.CategoryDTOs
 {
     public class CategoryListDTO
     {
@@ -11,5 +13,6 @@
 
         //category section
         public string Name { get; set; } = null!;
+      
     }
 }

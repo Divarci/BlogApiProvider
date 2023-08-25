@@ -30,7 +30,7 @@ namespace BlogApiProvider.Controllers
             var category = await _categoryService.GetCategoryByIdAsync(id);
             return CreateActionResult(category);
         }
-
+        [ServiceFilter(typeof(GenericNotFoundFilter<Category>))]
         [HttpPut]
         public async Task<IActionResult> CategoryUpdate(CategoryUpdateDTO request)
         {

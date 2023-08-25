@@ -1,6 +1,8 @@
 ﻿using EntityLayer.Blog.DTOs.ArticleDTOs;
+using EntityLayer.Blog.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ServiceLayer.Exceptions.Filters;
 using ServiceLayer.Services.Blog.Abstract;
 
 namespace BlogApiProvider.Controllers
@@ -21,13 +23,13 @@ namespace BlogApiProvider.Controllers
             return CreateActionResult(articleList);
         }
 
+        [ServiceFilter(typeof(GenericNotFoundFilter<Article>))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetArticleById(int id)
         {
             var article = await _articleService.GetArticleByIdAsync(id);
             return CreateActionResult(article);
         }
-
         [HttpPut]
         public async Task<IActionResult> ArticleUpdate([FromForm]ArticleUpdateDTO request)
         {
@@ -41,8 +43,8 @@ namespace BlogApiProvider.Controllers
             var newArticle = await _articleService.ArticleAddAsync(request);
             return CreateActionResult(newArticle);
         }
-
-        [HttpDelete]
+        [ServiceFilter(typeof(GenericNotFoundFilter<Article>))]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> ArticleDelete(int id)
         {
             var existingArticle = await _articleService.ArticleDeleteAsync(id);
