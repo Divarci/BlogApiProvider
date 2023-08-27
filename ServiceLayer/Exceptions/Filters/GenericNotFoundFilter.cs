@@ -1,11 +1,8 @@
 ﻿using CoreLayer.BaseEntity;
-using EntityLayer.Blog.DTOs.ArticleDTOs;
 using EntityLayer.GenericDTOs;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using RepositoryLayer.Repository.Abstract;
-using ServiceLayer.Exceptions.Exceptions;
 
 namespace ServiceLayer.Exceptions.Filters
 {
@@ -20,10 +17,24 @@ namespace ServiceLayer.Exceptions.Filters
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var value = context.ActionArguments.Values.FirstOrDefault();          
-          
+            var value = context.ActionArguments.Values.FirstOrDefault();
+
+            var idCheck = value is int;
+            if (!idCheck)
+            {
+                context.Result = new BadRequestObjectResult(CustomResponseDto<NoContentDto>.Fail(400, $"Id is not valid."));
+                return;
+            }
+
             //if id is an int. we cast it to an int. than we check is there any match with this id.
             var id = (int)value!;
+
+            if (id == 0)
+            {
+                context.Result = new BadRequestObjectResult(CustomResponseDto<NoContentDto>.Fail(400, $"Id is not valid."));
+                return;
+            }
+
             var entityCheck = await _genericRepository.AnyAsync(x => x.Id == id);
             //if it is exist. no problem
             if (entityCheck)

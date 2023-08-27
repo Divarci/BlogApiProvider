@@ -28,7 +28,7 @@ namespace ServiceLayer.Services.Blog.Concrete
 
         public async Task<CustomResponseDto<List<ArticleListDTO>>> GetArticleListAsync()
         {
-            var articleList = await _repository.GetList().ProjectTo<ArticleListDTO>(_mapper.ConfigurationProvider).ToListAsync();
+            var articleList = await _repository.GetList().Include(x=>x.Category).ProjectTo<ArticleListDTO>(_mapper.ConfigurationProvider).ToListAsync();
             return CustomResponseDto<List<ArticleListDTO>>.Success(200, articleList);
         }
 
@@ -38,12 +38,12 @@ namespace ServiceLayer.Services.Blog.Concrete
             return CustomResponseDto<ArticleUpdateDTO>.Success(200, article);
         }
 
-        public async Task<CustomResponseDto<ArticleAddDTO>> ArticleAddAsync(ArticleAddDTO request)
+        public async Task<CustomResponseDto<NoContentDto>> ArticleAddAsync(ArticleAddDTO request)
         {
             var imageUpload = await _imageHelper.ImageUpload(request.Photo);
             if (imageUpload.Error != null)
             {
-                return CustomResponseDto<ArticleAddDTO>.Fail(400, imageUpload.Error);
+                return CustomResponseDto<NoContentDto>.Fail(400, imageUpload.Error);
             }
             request.FileName = imageUpload.FileName!;
             request.FileType = request.Photo.ContentType;
@@ -51,7 +51,7 @@ namespace ServiceLayer.Services.Blog.Concrete
             var article = _mapper.Map<Article>(request);
             await _repository.AddAsync(article);
             await _unitOfWork.CommitAsync();
-            return CustomResponseDto<ArticleAddDTO>.Success(201, request);
+            return CustomResponseDto<NoContentDto>.Success(201);
 
         }
 
@@ -94,7 +94,7 @@ namespace ServiceLayer.Services.Blog.Concrete
             _repository.Delete(article);
             await _unitOfWork.CommitAsync();
             _imageHelper.Delete(article.FileName);
-            return CustomResponseDto<NoContentDto>.Success(204);
+            return CustomResponseDto<NoContentDto>.Success(201);
         }
     }
 }

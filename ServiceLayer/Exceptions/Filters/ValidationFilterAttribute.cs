@@ -10,6 +10,11 @@ namespace ServiceLayer.Exceptions.Filters
         {            
             if (!context.ModelState.IsValid)
             {
+                if(context.ModelState.Keys.Count() == 1 && context.ModelState.Keys.Contains("id"))
+                {
+                    context.Result = new BadRequestObjectResult(CustomResponseDto<NoContentDto>.Fail(400, new List<string> {"Id is not valid."}));
+                    return;
+                }
                 var errors = context.ModelState.Values.SelectMany(x => x.Errors).Select(x=>x.ErrorMessage).ToList();
 
                 context.Result = new BadRequestObjectResult(CustomResponseDto<NoContentDto>.Fail(400, errors));

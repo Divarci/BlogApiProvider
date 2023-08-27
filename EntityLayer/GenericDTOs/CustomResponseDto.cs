@@ -6,7 +6,6 @@ namespace EntityLayer.GenericDTOs
     {
         public T? Data { get; set; }
 
-        [JsonIgnore]
         public int StatusCode { get; set; }
 
         public List<string>? Errors { get; set; }

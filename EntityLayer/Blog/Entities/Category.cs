@@ -8,6 +8,6 @@ namespace EntityLayer.Blog.Entities
         public string Name { get; set; } = null!;
 
         //article relation
-        public ICollection<Article> Articles { get; set; }
+        public ICollection<Article>? Articles { get; set; }
     }
 }

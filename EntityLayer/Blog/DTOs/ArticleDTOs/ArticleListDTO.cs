@@ -1,4 +1,6 @@
-﻿namespace EntityLayer.Blog.DTOs.ArticleDTOs
+﻿using EntityLayer.Blog.DTOs.CategoryDTOs;
+
+namespace EntityLayer.Blog.DTOs.ArticleDTOs
 {
     public class ArticleListDTO
     {
@@ -18,6 +20,6 @@
         public string FileName { get; set; } = null!;
 
         //category relation
-        public int CategoryId { get; set; }
+        public CategoryListDTO Category { get; set; } = null!;
     }
 }

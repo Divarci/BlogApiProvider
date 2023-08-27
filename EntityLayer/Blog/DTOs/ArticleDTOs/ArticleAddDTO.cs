@@ -10,12 +10,12 @@ namespace EntityLayer.Blog.DTOs.ArticleDTOs
         public string Content { get; set; } = null!;
         public string Author { get; set; } = null!;
 
-        //Picture Section
-      
+        //Picture Section        
         public string FileName { get; set; } = null!;
         public string FileType { get; set; } = null!;
 
         //Photo Add
+
         public IFormFile Photo { get; set; } = null!;
 
         //category relation

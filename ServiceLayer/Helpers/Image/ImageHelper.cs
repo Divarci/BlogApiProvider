@@ -17,6 +17,7 @@ namespace ServiceLayer.Helpers.Image
 
         public async Task<ArticleImageDto> ImageUpload(IFormFile imageFile)
         {
+            
             if (!Directory.Exists($"{_environment.ContentRootPath}/{ArticleFolder}"))
                 Directory.CreateDirectory($"{_environment.ContentRootPath}/{ArticleFolder}");
 
