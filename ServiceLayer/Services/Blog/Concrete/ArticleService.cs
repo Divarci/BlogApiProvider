@@ -113,7 +113,7 @@ namespace ServiceLayer.Services.Blog.Concrete
             _repository.Delete(article);
             await _unitOfWork.CommitAsync();
             _imageHelper.Delete(article.FileName);
-            return CustomResponseDto<NoContentDto>.Success(204);
+            return CustomResponseDto<NoContentDto>.Success(203);
         }
 
 

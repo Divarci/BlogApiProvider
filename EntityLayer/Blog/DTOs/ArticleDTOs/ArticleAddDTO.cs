@@ -9,6 +9,7 @@ namespace EntityLayer.Blog.DTOs.ArticleDTOs
         public string Title { get; set; } = null!;
         public string Content { get; set; } = null!;
         public string Author { get; set; } = null!;
+        public string? YoutubeUrl { get; set; }
 
         //Picture Section        
         public string FileName { get; set; } = null!;

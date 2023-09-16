@@ -80,7 +80,7 @@ namespace ServiceLayer.Services.Blog.Concrete
             var existingCategory = await _repository.GetByIdAsync(id);
             _repository.Delete(existingCategory);
             await _unitOfWork.CommitAsync();
-            return CustomResponseDto<NoContentDto>.Success(204);
+            return CustomResponseDto<NoContentDto>.Success(203);
 
         }
 
