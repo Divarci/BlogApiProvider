@@ -13,6 +13,9 @@ namespace EntityLayer.Blog.DTOs.CategoryDTOs
 
         //category section
         public string Name { get; set; } = null!;
-      
+
+        //Article List
+        public List<ArticleListDTO>? Articles { get; set; }
+
     }
 }

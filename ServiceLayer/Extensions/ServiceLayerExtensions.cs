@@ -1,17 +1,23 @@
-﻿using FluentValidation;
+﻿using EntityLayer.Token.DTOs;
+using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using ServiceLayer.Exceptions.Filters;
 using ServiceLayer.FluentValidaton.Blog.Category;
 using ServiceLayer.Helpers.Image;
+using ServiceLayer.Helpers.SignHelpers;
 using System.Reflection;
 
 namespace ServiceLayer.Extensions
 {
     public static class ServiceLayerExtensions
     {
-        public static IServiceCollection LoadServiceLayerExtensions(this IServiceCollection services)
+        public static IServiceCollection LoadServiceLayerExtensions(this IServiceCollection services,IConfiguration configuration)
         {
             //Add Automapper
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -45,8 +51,40 @@ namespace ServiceLayer.Extensions
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
-
             services.AddScoped(typeof(GenericNotFoundFilter<>));
+
+
+            //services.Configure<TokenInfo>(configuration.GetSection("TokenOptions"));
+
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            {
+                var tokenInfo = configuration.GetSection("TokenOptions").Get<TokenInfo>()!;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = tokenInfo.Issuer,
+                    ValidAudience = tokenInfo.Audience[0],
+                    IssuerSigningKey = SignHelper.GetSymmetricSecurityKey(tokenInfo.SecurityKey),
+
+                    ValidateIssuerSigningKey = true,
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
+                    ValidateLifetime = true,
+
+                    ClockSkew = TimeSpan.Zero,
+
+                };
+
+                
+            });
+
+
+
 
             return services;
         }

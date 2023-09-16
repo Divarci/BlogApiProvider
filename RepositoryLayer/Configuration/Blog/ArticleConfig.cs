@@ -21,7 +21,7 @@ namespace RepositoryLayer.Configuration.Blog
             builder.Property(x => x.UpdatedDate).HasMaxLength(10);
 
             //Picture Settings
-            builder.Property(x => x.FileName).HasMaxLength(100).IsRequired();
+            builder.Property(x => x.FileName).HasMaxLength(2500).IsRequired();
             builder.Property(x => x.FileType).HasMaxLength(30).IsRequired();
 
         }

@@ -1,5 +1,5 @@
-﻿using EntityLayer.Blog.DTOs.CategoryDTOs;
-using EntityLayer.GenericDTOs;
+﻿using CoreLayer.Response;
+using EntityLayer.Blog.DTOs.CategoryDTOs;
 
 namespace ServiceLayer.Services.Blog.Abstract
 {

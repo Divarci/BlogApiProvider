@@ -19,6 +19,7 @@ namespace EntityLayer.Blog.DTOs.ArticleDTOs
 
         //Picture Section
         public string FileName { get; set; } = null!;
+        public byte[] FileByte { get; set; } = null!;
         public string FileType { get; set; } = null!;
 
         //Photo Add

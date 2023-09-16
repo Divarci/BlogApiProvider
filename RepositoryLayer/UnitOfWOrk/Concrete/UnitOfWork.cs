@@ -1,8 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using RepositoryLayer.Context;
 using RepositoryLayer.Repository.Abstract;
 using RepositoryLayer.Repository.Concrete;
 using RepositoryLayer.UnitOfWOrk.Abstract;
+using ServiceLayer.Exceptions.Exceptions;
 
 namespace RepositoryLayer.UnitOfWOrk.Concrete
 {
@@ -24,7 +27,20 @@ namespace RepositoryLayer.UnitOfWOrk.Concrete
         // async savechange
         public async Task CommitAsync()
         {
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                if (ex is DbUpdateConcurrencyException)
+                    throw new DbUpdateConcurrencyException("Data has been changed.");
+
+                if (ex.InnerException is SqlException sqlException && sqlException.Number == 547)
+                    throw new ConflictException("Please delete all articles related to this category!");
+            }
+
         }
 
 

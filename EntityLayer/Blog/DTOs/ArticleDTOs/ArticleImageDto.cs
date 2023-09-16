@@ -1,6 +1,6 @@
 ﻿namespace EntityLayer.Blog.DTOs.ArticleDTOs
 {
-    public class ArticleImageDto
+    public class ArticleImageDTO
     {
         public string? FileName { get; set; }
         public string? FileType { get; set; }

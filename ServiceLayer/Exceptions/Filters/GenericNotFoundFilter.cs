@@ -1,5 +1,5 @@
 ﻿using CoreLayer.BaseEntity;
-using EntityLayer.GenericDTOs;
+using CoreLayer.Response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using RepositoryLayer.Repository.Abstract;
@@ -22,7 +22,7 @@ namespace ServiceLayer.Exceptions.Filters
             var idCheck = value is int;
             if (!idCheck)
             {
-                context.Result = new BadRequestObjectResult(CustomResponseDto<NoContentDto>.Fail(400, $"Id is not valid."));
+                context.Result = new NotFoundObjectResult(CustomResponseDto<NoContentDto>.Fail(404, "Id is not valid."));
                 return;
             }
 
@@ -31,7 +31,7 @@ namespace ServiceLayer.Exceptions.Filters
 
             if (id == 0)
             {
-                context.Result = new BadRequestObjectResult(CustomResponseDto<NoContentDto>.Fail(400, $"Id is not valid."));
+                context.Result = new NotFoundObjectResult(CustomResponseDto<NoContentDto>.Fail(404, "Id is not valid."));
                 return;
             }
 
@@ -44,7 +44,7 @@ namespace ServiceLayer.Exceptions.Filters
             }
 
             //if it is not data does not exist
-            context.Result = new NotFoundObjectResult(CustomResponseDto<NoContentDto>.Fail(404, $"Data {id} is not found."));
+            context.Result = new NotFoundObjectResult(CustomResponseDto<NoContentDto>.Fail(404, "Data is not found."));
             return;
 
         }

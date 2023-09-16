@@ -11,6 +11,7 @@ namespace ServiceLayer.Automapper.Blog
             CreateMap<Category,CategoryAddDTO>().ReverseMap();
             CreateMap<Category,CategoryUpdateDTO>().ReverseMap();
             CreateMap<Category,CategoryListDTO>().ReverseMap();
+            CreateMap<Category,CategoryDTO>().ReverseMap();
         }
     }
 }

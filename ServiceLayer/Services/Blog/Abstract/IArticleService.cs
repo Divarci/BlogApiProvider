@@ -1,5 +1,5 @@
-﻿using EntityLayer.Blog.DTOs.ArticleDTOs;
-using EntityLayer.GenericDTOs;
+﻿using CoreLayer.Response;
+using EntityLayer.Blog.DTOs.ArticleDTOs;
 
 namespace ServiceLayer.Services.Blog.Abstract
 {
@@ -10,6 +10,5 @@ namespace ServiceLayer.Services.Blog.Abstract
         Task<CustomResponseDto<NoContentDto>> ArticleAddAsync(ArticleAddDTO request);
         Task<CustomResponseDto<NoContentDto>> ArticleUpdateAsync(ArticleUpdateDTO request);
         Task<CustomResponseDto<NoContentDto>> ArticleDeleteAsync(int id);
-
     }
 }

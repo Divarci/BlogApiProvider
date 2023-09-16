@@ -8,39 +8,41 @@ namespace ServiceLayer.Helpers.Image
     {
         private readonly IHostEnvironment _environment;
         private const string ArticleFolder = "ArticleImages";
+        private readonly string _wwwroot;
 
 
         public ImageHelper(IHostEnvironment environment)
         {
             _environment = environment;
+            _wwwroot = environment.ContentRootPath + "/wwwroot/";
         }
 
-        public async Task<ArticleImageDto> ImageUpload(IFormFile imageFile)
+        public async Task<ArticleImageDTO> ImageUpload(IFormFile imageFile)
         {
             
-            if (!Directory.Exists($"{_environment.ContentRootPath}/{ArticleFolder}"))
-                Directory.CreateDirectory($"{_environment.ContentRootPath}/{ArticleFolder}");
+            if (!Directory.Exists($"{_wwwroot}/{ArticleFolder}"))
+                Directory.CreateDirectory($"{_wwwroot}/{ArticleFolder}");
 
             string fileExtension = Path.GetExtension(imageFile.FileName);
 
             if (fileExtension != ".jpg" && fileExtension != ".jpeg" && fileExtension != ".png")
-                return new ArticleImageDto { Error = "You have to upload a JPG,JPEG or PNG" };
+                return new ArticleImageDTO { Error = "You have to upload a JPG,JPEG or PNG" };
 
             string dateTime = DateTime.Now.Microsecond.ToString();
             string newFileName = $"Article_{dateTime}{fileExtension}";
 
-            string path = Path.Combine($"{_environment.ContentRootPath}/{ArticleFolder}", newFileName);
+            string path = Path.Combine($"{_wwwroot}/{ArticleFolder}", newFileName);
 
             await using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024, useAsync: false);
             await imageFile.CopyToAsync(stream);
             await stream.FlushAsync();
 
-            return new ArticleImageDto { FileName = $"{ArticleFolder}/{newFileName}" };
+            return new ArticleImageDTO { FileName = $"{newFileName}",FileType = imageFile.ContentType };
         }
         public string Delete(string imageName)
         {
 
-            var fileToDelete = Path.Combine($"{_environment.ContentRootPath}/{imageName}");
+            var fileToDelete = Path.Combine($"{_wwwroot}/{ArticleFolder}/{imageName}");
             if (File.Exists(fileToDelete)) File.Delete(fileToDelete);
 
             return "Deleted";

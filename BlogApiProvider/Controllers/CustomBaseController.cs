@@ -1,4 +1,4 @@
-﻿using EntityLayer.GenericDTOs;
+﻿using CoreLayer.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

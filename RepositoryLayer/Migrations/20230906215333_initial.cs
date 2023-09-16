@@ -5,7 +5,7 @@
 namespace RepositoryLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,7 +35,7 @@ namespace RepositoryLayer.Migrations
                     Title = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Author = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
-                    FileName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(2500)", maxLength: 2500, nullable: false),
                     FileType = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),

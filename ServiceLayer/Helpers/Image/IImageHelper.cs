@@ -5,7 +5,7 @@ namespace ServiceLayer.Helpers.Image
 {
     public interface IImageHelper
     {
-        Task<ArticleImageDto> ImageUpload(IFormFile imageFile);
+        Task<ArticleImageDTO> ImageUpload(IFormFile imageFile);
         string Delete(string imageName);
     }
 }

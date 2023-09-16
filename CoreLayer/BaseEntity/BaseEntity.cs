@@ -1,4 +1,6 @@
-﻿namespace CoreLayer.BaseEntity
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CoreLayer.BaseEntity
 {
     public abstract class BaseEntity
     {
@@ -6,10 +8,10 @@
         public int Id { get; set; }
 
         //Information
-        public string CreatedDate { get; set; } =DateTime.Now.ToString("d");
+        public string CreatedDate { get; set; } = null!;
         public string? UpdatedDate { get; set; }
 
-        //Check Constraint       
+        //Check Constraint
         public byte[] RowVersion { get; set; } = null!;
     }
 }

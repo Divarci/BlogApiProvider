@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace EntityLayer.GenericDTOs
+﻿namespace CoreLayer.Response
 {
     public class CustomResponseDto<T>
     {
@@ -11,7 +9,7 @@ namespace EntityLayer.GenericDTOs
         public List<string>? Errors { get; set; }
 
 
-        public static CustomResponseDto<T> Success(int statusCode,T data)
+        public static CustomResponseDto<T> Success(int statusCode, T data)
         {
             return new CustomResponseDto<T> { StatusCode = statusCode, Data = data };
         }

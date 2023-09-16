@@ -1,7 +1,8 @@
-﻿using EntityLayer.GenericDTOs;
+﻿using CoreLayer.Response;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using ServiceLayer.Exceptions.Exceptions;
 using System.Text.Json;
 
@@ -21,7 +22,9 @@ namespace ServiceLayer.Exceptions.Middleware
 
                     var statusCode = exceptionFeature.Error switch
                     {
-                        ClientSideException => 400,
+                        ConflictException => 409,
+                        DbUpdateConcurrencyException => 400,                                            
+
                         _ => 500
 
                     };

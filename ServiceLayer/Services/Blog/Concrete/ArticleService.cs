@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using CoreLayer.Response;
 using EntityLayer.Blog.DTOs.ArticleDTOs;
 using EntityLayer.Blog.Entities;
-using EntityLayer.GenericDTOs;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using RepositoryLayer.Repository.Abstract;
 using RepositoryLayer.UnitOfWOrk.Abstract;
 using ServiceLayer.Helpers.Image;
@@ -17,18 +18,32 @@ namespace ServiceLayer.Services.Blog.Concrete
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IImageHelper _imageHelper;
+        private readonly IHostEnvironment _environment;
+        private readonly string _wwwroot;
+        private const string ArticleFolder = "ArticleImages";
 
-        public ArticleService(IUnitOfWork unitOfWork, IMapper mapper, IImageHelper imageHelper)
+
+        public ArticleService(IUnitOfWork unitOfWork, IMapper mapper, IImageHelper imageHelper, IHostEnvironment environment)
         {
             _unitOfWork = unitOfWork;
             _repository = _unitOfWork.GetGenericRepository<Article>();
             _mapper = mapper;
             _imageHelper = imageHelper;
+            _environment = environment;
+            _wwwroot = environment.ContentRootPath + "/wwwroot/";
+
         }
 
         public async Task<CustomResponseDto<List<ArticleListDTO>>> GetArticleListAsync()
         {
-            var articleList = await _repository.GetList().Include(x=>x.Category).ProjectTo<ArticleListDTO>(_mapper.ConfigurationProvider).ToListAsync();
+            var articleList = await _repository.GetList().Include(x => x.Category).ProjectTo<ArticleListDTO>(_mapper.ConfigurationProvider).ToListAsync();
+            foreach (var article in articleList)
+            {
+                var path = Path.Combine(_wwwroot + $"{ArticleFolder}/", article.FileName!);
+                var fileBytes = File.ReadAllBytes(path);
+                article.FileByte = fileBytes;
+            }           
+
             return CustomResponseDto<List<ArticleListDTO>>.Success(200, articleList);
         }
 
@@ -45,6 +60,7 @@ namespace ServiceLayer.Services.Blog.Concrete
             {
                 return CustomResponseDto<NoContentDto>.Fail(400, imageUpload.Error);
             }
+
             request.FileName = imageUpload.FileName!;
             request.FileType = request.Photo.ContentType;
 
@@ -57,7 +73,7 @@ namespace ServiceLayer.Services.Blog.Concrete
 
         public async Task<CustomResponseDto<NoContentDto>> ArticleUpdateAsync(ArticleUpdateDTO request)
         {
-            var existingArticle = await _repository.GetByIdAsync(request.Id);
+            var existingArticle = await _repository.Where(x => x.Id == request.Id).AsNoTracking().FirstOrDefaultAsync();
             string oldPictue = existingArticle.FileName;
 
             if (request.Photo != null)
@@ -74,13 +90,16 @@ namespace ServiceLayer.Services.Blog.Concrete
             {
                 request.FileName = existingArticle.FileName;
                 request.FileType = existingArticle.FileType;
-            }          
+            }
 
-            var article = _mapper.Map(request,existingArticle);
+            var article = _mapper.Map<Article>(request);
+
+
             _repository.Update(article);
             await _unitOfWork.CommitAsync();
 
-            if(request.Photo != null)
+
+            if (request.Photo != null)
             {
                 _imageHelper.Delete(oldPictue);
             }
@@ -94,7 +113,9 @@ namespace ServiceLayer.Services.Blog.Concrete
             _repository.Delete(article);
             await _unitOfWork.CommitAsync();
             _imageHelper.Delete(article.FileName);
-            return CustomResponseDto<NoContentDto>.Success(201);
+            return CustomResponseDto<NoContentDto>.Success(204);
         }
+
+
     }
 }
