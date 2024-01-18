@@ -32,5 +32,7 @@ This project is an example API designed for my personal website to store and ret
 
 ✅ **Middleware Development:** Customizes HTTP requests and responses using ASP.NET Core Middleware.
 
-⭕ [Click here to see Live Blog Page]([https://www.hasandivarci.com]) 
+## Live BLog Page
+
+⭕ [Click here to see Live Blog Page](https://www.hasandivarci.com) 
  
