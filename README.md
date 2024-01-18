@@ -34,5 +34,5 @@ This project is an example API designed for my personal website to store and ret
 
 ## Live BLog Page
 
-⭕ [Click here to see Live Blog Page](https://www.hasandivarci.com) 
+⭕ [Click here to see Live Blog Page](https://www.hasandivarci.com/BlogApiUi) 
  
